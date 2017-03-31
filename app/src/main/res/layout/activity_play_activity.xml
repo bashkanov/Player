@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_song"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="320dp"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"></SeekBar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/seekBar"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:id="@+id/btForw"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btForwTxt"
+            android:textSize="24sp"/>
+
+        <Button
+            android:id="@+id/btPlay"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btPauseTxt"
+            android:textSize="24sp"/>
+
+        <Button
+            android:id="@+id/btNext"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btNextTxt"
+            android:textSize="24sp"/>
+
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/songCurrentDurationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:padding="5dp"
+        android:text="00:00"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"/>
+    <!-- Total Duration Label -->
+    <TextView
+        android:id="@+id/songTotalDurationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/songCurrentDurationLabel"
+        android:layout_alignBottom="@+id/songCurrentDurationLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:padding="5dp"
+        android:text="00:00"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/name_song"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:textSize="24sp"
+        android:textColor="@android:color/background_dark"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Player</string>
+    <string name="btPlayTxt">&gt;</string>
+    <string name="btPauseTxt">||</string>
+    <string name="btNextTxt">&gt;|</string>
+    <string name="btForwTxt">|&lt;</string>
+
+</resources>
