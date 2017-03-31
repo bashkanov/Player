@@ -4,5 +4,7 @@
     <string name="btPauseTxt">||</string>
     <string name="btNextTxt">&gt;|</string>
     <string name="btForwTxt">|&lt;</string>
+    <string name="messageSnackBarPermission">Storage permission is needed to show files count</string>
+    <string name="actionSnackBarPermission">GRANT</string>
 
 </resources>
