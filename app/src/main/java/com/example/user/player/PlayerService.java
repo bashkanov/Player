@@ -26,6 +26,8 @@ public class PlayerService extends Service {
             mPlayer.stop();
             mPlayer.release();
             mStart();
+        } else {
+            mStart();
         }
         return(START_NOT_STICKY);
     }
@@ -33,13 +35,6 @@ public class PlayerService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        mStart();
-//        if (mPlayer!=null){
-//            Log.e(TAG, "(OnBind) mPlayer is not null");
-//            mPlayer.stop();
-//            mPlayer.release();
-//            mStart();
-//        }
         Log.e(TAG, "(OnBind)");
         return mBinder;
     }
@@ -54,8 +49,6 @@ public class PlayerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-     //   mPlayer.stop();
-      //  mPlayer.release();
         Log.e(TAG, "Servise is stopped");
     }
 
