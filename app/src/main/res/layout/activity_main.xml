@@ -7,6 +7,21 @@
     android:id="@+id/activity_view"
     tools:context="com.example.user.player.MainActivity">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="198dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="@string/noSongs"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:visibility="invisible"/>
+    </FrameLayout>
+
     <ListView
         android:id="@+id/lvPlaylist"
         android:layout_width="match_parent"

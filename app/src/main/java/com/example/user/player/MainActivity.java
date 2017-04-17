@@ -13,14 +13,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static com.example.user.player.R.id.textView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "myLogs";
     Intent intent;
     private static final int PERMISSION_REQUEST_CODE = 123;
+    private TextView textView1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,24 @@ public class MainActivity extends AppCompatActivity {
         setTitle("List of all songs");
         intent = new Intent(this, PlayerService.class);
         lv = (ListView) findViewById(R.id.lvPlaylist);
+        textView1 = (TextView) findViewById(R.id.textView3);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_toPlayerActivity){
+            startActivity(new Intent(getApplicationContext(),Play_activity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -58,7 +83,16 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < mySongs.size(); i++){
             items[i] = mySongs.get(i).getName().replace(".mp3","");
         }
-        ArrayAdapter<String> adp = new ArrayAdapter<String>(getApplicationContext(),R.layout.song_layout,R.id.textView,items);
+
+        if (mySongs.size() == 0){
+            //Log.d(TAG, "Unfortunately you dont have song on your storage");
+           // textView1.setText("Unfortunately you dont have songs on your storage");
+            textView1.setVisibility(View.VISIBLE);
+        }else {
+            textView1.setVisibility(View.INVISIBLE);
+        }
+
+        ArrayAdapter<String> adp = new ArrayAdapter<String>(getApplicationContext(),R.layout.song_layout, textView,items);
         lv.setAdapter(adp);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

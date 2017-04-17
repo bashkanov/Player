@@ -3,6 +3,7 @@ package com.example.user.player;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -19,14 +21,21 @@ import java.util.ArrayList;
 
 public class Play_activity extends AppCompatActivity implements View.OnClickListener {
 
+    private AnimatedVectorDrawable mPlayDrawable;
+    private AnimatedVectorDrawable mPauseDrawable;
+    private boolean mPlayFlag;
+    private ImageButton SoundButton1;
+    private static final String TAG = "myLogs";
+
     boolean mBound = false;
     PlayerService mService;
     public static SeekBar seekBar;
     private Handler mHandler = new Handler();
     ArrayList<File> mySongs;
     private TextView textView;
-    private static final String TAG = "myLogs";
-    private Button btForw, btPlay, btNext;
+
+    private Button btForw, btNext;
+    ImageButton btPlay;
     TextView songCurrentDurationLabel;
     public static TextView songTotalDurationLabel;
     //MyTask mt;
@@ -40,17 +49,23 @@ public class Play_activity extends AppCompatActivity implements View.OnClickList
         setTitle("MyPlayer on service with SeekBar");
         Log.d(TAG, "Создали второе активити");
 
+        mPlayDrawable = (AnimatedVectorDrawable) getDrawable(R.drawable.ic_triangle_animatable);
+        mPauseDrawable = (AnimatedVectorDrawable) getDrawable(R.drawable.ic_pause_animatable);
+        SoundButton1 = (ImageButton)findViewById(R.id.btPlay);
+        textView = (TextView) findViewById(R.id.name_song);
+        songCurrentDurationLabel = (TextView) findViewById(R.id.songCurrentDurationLabel);
+        songTotalDurationLabel = (TextView) findViewById(R.id.songTotalDurationLabel);
+        btForw = (Button) findViewById(R.id.btForw);
+        btNext = (Button) findViewById(R.id.btNext);
+        btForw.setOnClickListener(this);
+        btNext.setOnClickListener(this);
+
         Intent i = getIntent();
         Bundle b = i.getExtras();
         mySongs = (ArrayList) b.getParcelableArrayList("songslist");
         position = b.getInt("pos", 0);
         u = Uri.parse(mySongs.get(position).toString());
-
-        textView = (TextView) findViewById(R.id.name_song);
         textView.setText(mySongs.get(position).getName().replace(".mp3", ""));
-
-        songCurrentDurationLabel = (TextView) findViewById(R.id.songCurrentDurationLabel);
-        songTotalDurationLabel = (TextView) findViewById(R.id.songTotalDurationLabel);
 
         Intent intent = new Intent(this, PlayerService.class);
         startService(intent);
@@ -75,14 +90,6 @@ public class Play_activity extends AppCompatActivity implements View.OnClickList
                 updateProgressBar();
             }
         });
-
-        btForw = (Button) findViewById(R.id.btForw);
-        btPlay = (Button) findViewById(R.id.btPlay);
-        btNext = (Button) findViewById(R.id.btNext);
-        btForw.setOnClickListener(this);
-        btPlay.setOnClickListener(this);
-        btNext.setOnClickListener(this);
-
     }
 
     @Override
@@ -90,11 +97,11 @@ public class Play_activity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         Intent intent = new Intent(this, PlayerService.class);
         bindService(intent, mConnection, 0);
+        SoundButton1.setImageDrawable(mPauseDrawable);
         updateProgressBar();
 //        mt = new MyTask();
 //        mt.execute();
     }
-
 
     @Override
     protected void onStop() {
@@ -133,20 +140,24 @@ public class Play_activity extends AppCompatActivity implements View.OnClickList
         }
     };
 
+
+    public void playClick(View view){
+        if (mService.mPlayer.isPlaying()) {
+            SoundButton1.setImageDrawable(mPauseDrawable);
+            mPauseDrawable.start();
+            mService.mPlayer.pause();
+            mHandler.removeCallbacks(mUpdateTimeTask);
+        } else {
+            SoundButton1.setImageDrawable(mPlayDrawable);
+            mPlayDrawable.start();
+            mService.mPlayer.start();
+            updateProgressBar();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btPlay:
-                if (mService.mPlayer.isPlaying()) {
-                    btPlay.setText(R.string.btPlayTxt);
-                    mService.mPlayer.pause();
-                    mHandler.removeCallbacks(mUpdateTimeTask);
-                } else {
-                    mService.mPlayer.start();
-                    updateProgressBar();
-                    btPlay.setText(R.string.btPauseTxt);
-                }
-                break;
             case R.id.btNext:
                 seekBar.setProgress(0);
                 mService.mPlayer.stop();
@@ -155,7 +166,8 @@ public class Play_activity extends AppCompatActivity implements View.OnClickList
                 u = Uri.parse(mySongs.get(position).toString());
                 mService.mStart();
                 updateProgressBar();
-                btPlay.setText(R.string.btPauseTxt);
+                SoundButton1.setImageDrawable(mPlayDrawable);
+                //mPlayDrawable.start();
                 textView.setText(mySongs.get(position).getName().replace(".mp3", ""));
                 break;
             case R.id.btForw:
@@ -170,7 +182,8 @@ public class Play_activity extends AppCompatActivity implements View.OnClickList
                 u = Uri.parse(mySongs.get(position).toString());
                 mService.mStart();
                 updateProgressBar();
-                btPlay.setText(R.string.btPauseTxt);
+                SoundButton1.setImageDrawable(mPlayDrawable);
+                //mPlayDrawable.start();
                 textView.setText(mySongs.get(position).getName().replace(".mp3", ""));
                 break;
         }

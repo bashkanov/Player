@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_pause_vector">
+    <target
+        android:name="pause"
+        android:animation="@animator/ic_pause_morph"/>
+    <!--<target-->
+    <!--android:name="rotation"-->
+    <!--android:animation="@animator/clockwise_rotation"/>-->
+</animated-vector>
